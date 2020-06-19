@@ -1,9 +1,18 @@
 from django.urls import include, path
 
 from .views import classroom, students, teachers
+from classroom.api.viewsets import QuizViewSet
+from rest_framework import routers
+
+
+router = routers.DefaultRouter()
+router.register(r'quiz', QuizViewSet)
+
 
 urlpatterns = [
     path('', classroom.home, name='home'),
+    path('', include(router.urls)),
+    # path('quiz/', QuizViewSet, name='quiz_api'),
 
     path('students/', include(([
         path('', students.QuizListView.as_view(), name='quiz_list'),
